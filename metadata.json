@@ -1,0 +1,6 @@
+{
+  "name": "GOQii 2.0 UK",
+  "description": "Connected digital healthcare platform combining clinical expertise, personal health coaching, data insights and habit transformation for the UK.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
