@@ -23,7 +23,6 @@ interface PillarDetail {
   title: string;
   tagline: string;
   description: string;
-  handwritten: string[];
   image: string;
   icon: React.ElementType;
   iconBg: string;
@@ -43,7 +42,6 @@ export const ClinicalMethodology: React.FC = () => {
       title: 'Nutrition',
       tagline: 'Fuel your body.',
       description: 'Practical, sustainable nutrition guidance designed for your lifestyle.',
-      handwritten: ['Better', 'Food', 'Brighter', 'Days'],
       image: nutritionImg,
       icon: Sprout,
       iconBg: 'bg-[#d8f0e5]',
@@ -63,7 +61,6 @@ export const ClinicalMethodology: React.FC = () => {
       title: 'Exercise',
       tagline: 'Move with purpose.',
       description: 'Guidance and support to help you build healthier habits.',
-      handwritten: ['Stronger', 'Everyday'],
       image: exerciseImg,
       icon: Activity,
       iconBg: 'bg-[#ffe8dc]',
@@ -83,7 +80,6 @@ export const ClinicalMethodology: React.FC = () => {
       title: 'Sleep',
       tagline: 'Recover deeply.',
       description: 'Tools and support for better sleep and restorative rest.',
-      handwritten: ['Rest', 'Recharge', 'Repeat'],
       image: sleepImg,
       icon: Moon,
       iconBg: 'bg-[#e0effe]',
@@ -103,7 +99,6 @@ export const ClinicalMethodology: React.FC = () => {
       title: 'Mental Health',
       tagline: 'Build resilience.',
       description: 'Support for a calmer, healthier mind and a brighter tomorrow.',
-      handwritten: ['A', 'Calmer', 'Brighter', 'You'],
       image: mentalHealthImg,
       icon: Flower2,
       iconBg: 'bg-[#eee7fe]',
@@ -224,13 +219,6 @@ export const ClinicalMethodology: React.FC = () => {
                       <span>Learn More</span>
                       <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover/btn:translate-x-1 text-stone-600 group-hover/btn:text-[#1e4d44]" />
                     </button>
-                  </div>
-
-                  {/* Handwritten Script Tag at Bottom Left */}
-                  <div className="pt-6 font-['Caveat',cursive] text-[#2c6155] text-xl leading-tight select-none -rotate-3">
-                    {pillar.handwritten.map((word, i) => (
-                      <div key={i}>{word}</div>
-                    ))}
                   </div>
                 </div>
 

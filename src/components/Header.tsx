@@ -20,10 +20,17 @@ import {
 interface HeaderProps {
   onOpenGpGuide: () => void;
   onOpenContact: () => void;
+  onGoHome?: () => void;
+  onNavigateSection?: (id: string) => void;
 }
 
 
-export const Header: React.FC<HeaderProps> = ({ onOpenGpGuide, onOpenContact }) => {
+export const Header: React.FC<HeaderProps> = ({
+  onOpenGpGuide,
+  onOpenContact,
+  onGoHome,
+  onNavigateSection,
+}) => {
   const [isVisible, setIsVisible] = useState(true);
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -86,11 +93,24 @@ export const Header: React.FC<HeaderProps> = ({ onOpenGpGuide, onOpenContact }) 
   const scrollToSection = (id: string) => {
     setActiveDropdown(null);
     setMobileMenuOpen(false);
+    if (onNavigateSection) {
+      onNavigateSection(id);
+      return;
+    }
     const element = document.getElementById(id);
     if (element) {
       const yOffset = -90;
       const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
       window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
+
+  const handleLogoClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (onGoHome) {
+      onGoHome();
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -115,10 +135,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenGpGuide, onOpenContact }) 
           {/* LEFT: Official Brand Logo */}
           <a
             href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
+            onClick={handleLogoClick}
             id="header-brand-logo"
             className="flex items-center group text-decoration-none focus:outline-none shrink-0"
             aria-label="GOQii Home"

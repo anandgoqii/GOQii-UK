@@ -15,6 +15,7 @@ import {
 
 import bigBenImg from '../assets/images/london_big_ben_tower_1788862337258.jpg';
 import gpConsultingImg from '../assets/images/gp_consulting_patient_1788862358030.jpg';
+import { UK_MAP_PATHS } from '../data/ukMapPaths';
 
 // Authentic Modality Partnerships Logo SVG
 const ModalityLogo: React.FC<{ className?: string }> = ({ className = 'w-48 h-12' }) => (
@@ -53,6 +54,7 @@ interface RegionData {
   pinLabel: string;
   color: string;
   fillClass: string;
+  hoverFill: string;
   pinX: number;
   pinY: number;
   hubsCount: number;
@@ -71,9 +73,10 @@ export const UkHealthcareNetwork: React.FC = () => {
       name: 'Scotland',
       pinLabel: 'Scotland',
       color: '#205c50',
-      fillClass: 'fill-[#205c50] hover:fill-[#18463d]',
-      pinX: 180,
-      pinY: 120,
+      fillClass: 'fill-[#205c50]',
+      hoverFill: '#18463d',
+      pinX: 320,
+      pinY: 530,
       hubsCount: 14,
       patientsServed: '95,000+',
       clinics: ['Lothian Primary Care Cluster', 'Greater Glasgow Health Hub', 'Grampian Wellness Centre'],
@@ -84,9 +87,10 @@ export const UkHealthcareNetwork: React.FC = () => {
       name: 'North England',
       pinLabel: 'North England',
       color: '#2e8b7d',
-      fillClass: 'fill-[#2e8b7d] hover:fill-[#257367]',
-      pinX: 205,
-      pinY: 198,
+      fillClass: 'fill-[#2e8b7d]',
+      hoverFill: '#257367',
+      pinX: 490,
+      pinY: 760,
       hubsCount: 22,
       patientsServed: '180,000+',
       clinics: ['Airedale & Wharfedale Medical Practice', 'Crosshills Health Centre', 'Wokingham & Leeds Cluster'],
@@ -97,9 +101,10 @@ export const UkHealthcareNetwork: React.FC = () => {
       name: 'Midlands',
       pinLabel: 'Midlands',
       color: '#9bc7a6',
-      fillClass: 'fill-[#9bc7a6] hover:fill-[#86b592]',
-      pinX: 205,
-      pinY: 275,
+      fillClass: 'fill-[#9bc7a6]',
+      hoverFill: '#86b592',
+      pinX: 470,
+      pinY: 940,
       hubsCount: 35,
       patientsServed: '260,000+',
       clinics: ['Modality Birmingham Super-practice', 'Sandwell Primary Care Network', 'Walsall Community Health Centre'],
@@ -110,9 +115,10 @@ export const UkHealthcareNetwork: React.FC = () => {
       name: 'South England',
       pinLabel: 'South England',
       color: '#77aae3',
-      fillClass: 'fill-[#77aae3] hover:fill-[#6297d1]',
-      pinX: 215,
-      pinY: 345,
+      fillClass: 'fill-[#77aae3]',
+      hoverFill: '#6297d1',
+      pinX: 550,
+      pinY: 1080,
       hubsCount: 28,
       patientsServed: '220,000+',
       clinics: ['London West Primary Care Hub', 'Surrey Hills Medical Group', 'Thames Valley Community Practice'],
@@ -231,233 +237,187 @@ export const UkHealthcareNetwork: React.FC = () => {
             </div>
 
             {/* Interactive SVG UK Map */}
-            <div className="relative w-full max-w-[340px] aspect-[1/1.3] flex items-center justify-center">
+            <div className="relative w-full max-w-[370px] aspect-[740/1260] flex items-center justify-center py-2">
               <svg
-                viewBox="0 0 340 460"
-                className="w-full h-full drop-shadow-md select-none cursor-pointer"
+                viewBox={UK_MAP_PATHS.viewBox}
+                className="w-full h-full select-none cursor-pointer"
+                style={{ filter: 'drop-shadow(0 12px 24px rgba(12, 35, 64, 0.08))' }}
               >
+                <defs>
+                  {/* Subtle Region Drop Shadow */}
+                  <filter id="regionActiveShadow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feDropShadow dx="0" dy="6" stdDeviation="8" floodColor="#0c2340" floodOpacity="0.25" />
+                  </filter>
+                  <filter id="pinShadow" x="-30%" y="-30%" width="160%" height="160%">
+                    <feDropShadow dx="0" dy="3" stdDeviation="4" floodColor="#0c2340" floodOpacity="0.18" />
+                  </filter>
+                </defs>
+
+                {/* 0. NORTHERN IRELAND (Subtle background territory to complete UK map) */}
+                <g className="transition-opacity duration-300 opacity-65">
+                  <path
+                    d={UK_MAP_PATHS.northernIreland}
+                    fill="#d7e6df"
+                    stroke="#ffffff"
+                    strokeWidth="2"
+                    strokeLinejoin="round"
+                  />
+                  <text
+                    x="165"
+                    y="710"
+                    textAnchor="middle"
+                    fill="#52796f"
+                    fontSize="13"
+                    fontWeight="600"
+                    fontFamily="system-ui, -apple-system, sans-serif"
+                    className="select-none pointer-events-none opacity-80"
+                  >
+                    N. Ireland
+                  </text>
+                </g>
+
                 {/* 1. SCOTLAND (Top Region: #205c50) */}
                 <g
                   onClick={() => setSelectedRegionId('scotland')}
-                  className="transition-all duration-300"
+                  className="transition-all duration-300 group"
+                  filter={selectedRegionId === 'scotland' ? 'url(#regionActiveShadow)' : undefined}
                 >
                   <path
-                    d="M 140,55 
-                       C 145,40 160,25 180,30 
-                       C 195,35 210,40 215,55 
-                       C 220,70 205,85 220,105 
-                       C 230,115 210,135 200,145 
-                       C 180,165 170,165 150,165 
-                       C 135,165 130,150 120,140 
-                       C 110,130 115,115 110,105 
-                       C 105,95 120,80 130,70 Z"
-                    className={`${regions.scotland.fillClass} stroke-white stroke-[2.5] ${
-                      selectedRegionId === 'scotland' ? 'filter drop-shadow-lg' : 'opacity-90'
+                    d={UK_MAP_PATHS.scotland}
+                    className={`${regions.scotland.fillClass} hover:brightness-110 transition-all duration-200 stroke-white ${
+                      selectedRegionId === 'scotland' ? 'stroke-[3.5] opacity-100' : 'stroke-[1.8] opacity-95'
                     }`}
+                    strokeLinejoin="round"
                   />
-                  {/* Outer Islands accents */}
-                  <circle cx="105" cy="85" r="4" fill="#205c50" />
-                  <circle cx="112" cy="72" r="3.5" fill="#205c50" />
-                  <circle cx="118" cy="58" r="4" fill="#205c50" />
                 </g>
 
                 {/* 2. NORTH ENGLAND (Mid-North Region: #2e8b7d) */}
                 <g
                   onClick={() => setSelectedRegionId('north')}
-                  className="transition-all duration-300"
+                  className="transition-all duration-300 group"
+                  filter={selectedRegionId === 'north' ? 'url(#regionActiveShadow)' : undefined}
                 >
                   <path
-                    d="M 150,165 
-                       C 170,165 180,165 200,145 
-                       C 210,155 225,170 235,190 
-                       C 245,210 240,225 245,235 
-                       C 225,245 205,250 185,250 
-                       C 165,250 155,235 150,220 
-                       C 145,200 148,180 150,165 Z"
-                    className={`${regions.north.fillClass} stroke-white stroke-[2.5] ${
-                      selectedRegionId === 'north' ? 'filter drop-shadow-lg' : 'opacity-90'
+                    d={UK_MAP_PATHS.north}
+                    className={`${regions.north.fillClass} hover:brightness-110 transition-all duration-200 stroke-white ${
+                      selectedRegionId === 'north' ? 'stroke-[3.5] opacity-100' : 'stroke-[1.8] opacity-95'
                     }`}
+                    strokeLinejoin="round"
                   />
                 </g>
 
-                {/* 3. MIDLANDS (Middle-Green Region: #9bc7a6) */}
+                {/* 3. MIDLANDS & WALES (Middle Region: #9bc7a6) */}
                 <g
                   onClick={() => setSelectedRegionId('midlands')}
-                  className="transition-all duration-300"
+                  className="transition-all duration-300 group"
+                  filter={selectedRegionId === 'midlands' ? 'url(#regionActiveShadow)' : undefined}
                 >
                   <path
-                    d="M 185,250 
-                       C 205,250 225,245 245,235 
-                       C 255,255 250,280 248,300 
-                       C 225,315 200,320 180,315 
-                       C 160,310 140,305 135,285 
-                       C 130,265 155,250 185,250 Z"
-                    className={`${regions.midlands.fillClass} stroke-white stroke-[2.5] ${
-                      selectedRegionId === 'midlands' ? 'filter drop-shadow-lg' : 'opacity-90'
+                    d={UK_MAP_PATHS.midlands}
+                    className={`${regions.midlands.fillClass} hover:brightness-105 transition-all duration-200 stroke-white ${
+                      selectedRegionId === 'midlands' ? 'stroke-[3.5] opacity-100' : 'stroke-[1.8] opacity-95'
                     }`}
-                  />
-                  {/* Wales extension attached */}
-                  <path
-                    d="M 150,260 
-                       C 135,260 120,270 125,295 
-                       C 130,315 155,310 160,295 Z"
-                    className={`${regions.midlands.fillClass} stroke-white stroke-[2]`}
+                    strokeLinejoin="round"
                   />
                 </g>
 
                 {/* 4. SOUTH ENGLAND (Bottom Blue Region: #77aae3) */}
                 <g
                   onClick={() => setSelectedRegionId('south')}
-                  className="transition-all duration-300"
+                  className="transition-all duration-300 group"
+                  filter={selectedRegionId === 'south' ? 'url(#regionActiveShadow)' : undefined}
                 >
                   <path
-                    d="M 180,315 
-                       C 200,320 225,315 248,300 
-                       C 260,320 275,340 265,365 
-                       C 255,385 220,380 200,380 
-                       C 170,380 150,375 135,365 
-                       C 115,360 85,380 75,375 
-                       C 85,355 110,345 135,340 
-                       C 150,325 165,320 180,315 Z"
-                    className={`${regions.south.fillClass} stroke-white stroke-[2.5] ${
-                      selectedRegionId === 'south' ? 'filter drop-shadow-lg' : 'opacity-90'
+                    d={UK_MAP_PATHS.south}
+                    className={`${regions.south.fillClass} hover:brightness-110 transition-all duration-200 stroke-white ${
+                      selectedRegionId === 'south' ? 'stroke-[3.5] opacity-100' : 'stroke-[1.8] opacity-95'
                     }`}
+                    strokeLinejoin="round"
                   />
                 </g>
 
-                {/* REGION PINS & LABELS */}
+                {/* INTERACTIVE REGION PINS & LABELS */}
+                {(['scotland', 'north', 'midlands', 'south'] as const).map((regKey) => {
+                  const reg = regions[regKey];
+                  const isSelected = selectedRegionId === regKey;
+                  return (
+                    <g
+                      key={reg.id}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedRegionId(reg.id);
+                      }}
+                      className="cursor-pointer group"
+                    >
+                      {/* Active pulse aura */}
+                      {isSelected && (
+                        <circle
+                          cx={reg.pinX}
+                          cy={reg.pinY}
+                          r="26"
+                          className="animate-ping opacity-35"
+                          fill={reg.color}
+                        />
+                      )}
 
-                {/* Pin 1: Scotland */}
-                <g
-                  onClick={() => setSelectedRegionId('scotland')}
-                  className="cursor-pointer group"
-                >
-                  <circle
-                    cx="180"
-                    cy="98"
-                    r="8"
-                    className={`stroke-white stroke-2 transition-all ${
-                      selectedRegionId === 'scotland' ? 'fill-white stroke-[#205c50] stroke-[3]' : 'fill-[#205c50]'
-                    }`}
-                  />
-                  <circle
-                    cx="180"
-                    cy="98"
-                    r="3.5"
-                    className={selectedRegionId === 'scotland' ? 'fill-[#205c50]' : 'fill-white'}
-                  />
-                  <text
-                    x="180"
-                    y="118"
-                    textAnchor="middle"
-                    fill="white"
-                    fontSize="11"
-                    fontWeight="700"
-                    fontFamily="system-ui, sans-serif"
-                    className="drop-shadow-sm select-none"
-                  >
-                    Scotland
-                  </text>
-                </g>
+                      {/* Pin Outer White Disc */}
+                      <circle
+                        cx={reg.pinX}
+                        cy={reg.pinY}
+                        r={isSelected ? 18 : 15}
+                        fill="white"
+                        filter="url(#pinShadow)"
+                        className="transition-transform duration-200 group-hover:scale-110"
+                        style={{ transformOrigin: `${reg.pinX}px ${reg.pinY}px` }}
+                      />
 
-                {/* Pin 2: North England */}
-                <g
-                  onClick={() => setSelectedRegionId('north')}
-                  className="cursor-pointer group"
-                >
-                  <circle
-                    cx="205"
-                    cy="188"
-                    r="8"
-                    className={`stroke-white stroke-2 transition-all ${
-                      selectedRegionId === 'north' ? 'fill-white stroke-[#2e8b7d] stroke-[3]' : 'fill-[#2e8b7d]'
-                    }`}
-                  />
-                  <circle
-                    cx="205"
-                    cy="188"
-                    r="3.5"
-                    className={selectedRegionId === 'north' ? 'fill-[#2e8b7d]' : 'fill-white'}
-                  />
-                  <text
-                    x="205"
-                    y="208"
-                    textAnchor="middle"
-                    fill="white"
-                    fontSize="11"
-                    fontWeight="700"
-                    fontFamily="system-ui, sans-serif"
-                    className="drop-shadow-sm select-none"
-                  >
-                    North England
-                  </text>
-                </g>
+                      {/* Pin Inner Color Disc */}
+                      <circle
+                        cx={reg.pinX}
+                        cy={reg.pinY}
+                        r={isSelected ? 11 : 9}
+                        fill={reg.color}
+                        className="transition-transform duration-200 group-hover:scale-110"
+                        style={{ transformOrigin: `${reg.pinX}px ${reg.pinY}px` }}
+                      />
 
-                {/* Pin 3: Midlands */}
-                <g
-                  onClick={() => setSelectedRegionId('midlands')}
-                  className="cursor-pointer group"
-                >
-                  <circle
-                    cx="200"
-                    cy="280"
-                    r="8"
-                    className={`stroke-white stroke-2 transition-all ${
-                      selectedRegionId === 'midlands' ? 'fill-white stroke-[#205c50] stroke-[3]' : 'fill-[#205c50]'
-                    }`}
-                  />
-                  <circle
-                    cx="200"
-                    cy="280"
-                    r="3.5"
-                    className={selectedRegionId === 'midlands' ? 'fill-[#205c50]' : 'fill-white'}
-                  />
-                  <text
-                    x="200"
-                    y="300"
-                    textAnchor="middle"
-                    fill="#153e35"
-                    fontSize="11"
-                    fontWeight="700"
-                    fontFamily="system-ui, sans-serif"
-                    className="drop-shadow-2xs select-none"
-                  >
-                    Midlands
-                  </text>
-                </g>
+                      {/* Pin Center White Dot */}
+                      <circle
+                        cx={reg.pinX}
+                        cy={reg.pinY}
+                        r="3.5"
+                        fill="white"
+                      />
 
-                {/* Pin 4: South England */}
-                <g
-                  onClick={() => setSelectedRegionId('south')}
-                  className="cursor-pointer group"
-                >
-                  <circle
-                    cx="215"
-                    cy="348"
-                    r="8"
-                    className={`stroke-white stroke-2 transition-all ${
-                      selectedRegionId === 'south' ? 'fill-white stroke-[#1d4ed8] stroke-[3]' : 'fill-[#1d4ed8]'
-                    }`}
-                  />
-                  <circle
-                    cx="215"
-                    cy="348"
-                    r="3.5"
-                    className={selectedRegionId === 'south' ? 'fill-[#1d4ed8]' : 'fill-white'}
-                  />
-                  <text
-                    x="215"
-                    y="368"
-                    textAnchor="middle"
-                    fill="white"
-                    fontSize="11"
-                    fontWeight="700"
-                    fontFamily="system-ui, sans-serif"
-                    className="drop-shadow-sm select-none"
-                  >
-                    South England
-                  </text>
-                </g>
+                      {/* Pin Label Floating Badge */}
+                      <g className="transition-all duration-200">
+                        <rect
+                          x={reg.pinX - 62}
+                          y={reg.pinY + (isSelected ? 24 : 22)}
+                          width="124"
+                          height="28"
+                          rx="14"
+                          fill="white"
+                          stroke={isSelected ? reg.color : '#e2e8f0'}
+                          strokeWidth={isSelected ? 2 : 1}
+                          filter="url(#pinShadow)"
+                        />
+                        <text
+                          x={reg.pinX}
+                          y={reg.pinY + (isSelected ? 43 : 41)}
+                          textAnchor="middle"
+                          fill={isSelected ? '#0c2340' : '#334155'}
+                          fontSize="13"
+                          fontWeight={isSelected ? '700' : '600'}
+                          fontFamily="system-ui, -apple-system, sans-serif"
+                          className="select-none pointer-events-none tracking-tight"
+                        >
+                          {reg.pinLabel}
+                        </text>
+                      </g>
+                    </g>
+                  );
+                })}
               </svg>
             </div>
 
