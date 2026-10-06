@@ -13,5 +13,14 @@ export const UK_MAP_PATHS = {
     north: { x: 490, y: 760, label: 'North England' },
     midlands: { x: 470, y: 940, label: 'Midlands' },
     south: { x: 550, y: 1080, label: 'South England' },
+  },
+  divisions: {
+    awc: { id: 'awc', name: 'AWC', fullName: 'Airedale, Wharfedale & Craven', x: 450, y: 760, region: 'Yorkshire & North' },
+    walsall: { id: 'walsall', name: 'Walsall', fullName: 'Walsall Division', x: 440, y: 915, region: 'West Midlands' },
+    birmingham: { id: 'birmingham', name: 'Birmingham', fullName: 'Birmingham & Sandwell', x: 465, y: 960, region: 'West Midlands' },
+    wokingham: { id: 'wokingham', name: 'Wokingham', fullName: 'Wokingham Division', x: 505, y: 1060, region: 'Berkshire & Thames Valley' },
+    lewisham: { id: 'lewisham', name: 'Lewisham', fullName: 'Lewisham Division', x: 575, y: 1060, region: 'South East London' },
+    eastSurrey: { id: 'east-surrey', name: 'East-Surrey', fullName: 'East Surrey Division', x: 560, y: 1105, region: 'Surrey & South East' },
+    midSussex: { id: 'mid-sussex', name: 'Mid-Sussex', fullName: 'Mid-Sussex Division', x: 565, y: 1148, region: 'West Sussex' },
   }
 } as const;
